@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import http
 import logging
+import socket
 from collections.abc import Sequence
 from typing import Any, Literal, Optional, cast
 from urllib.parse import unquote
@@ -126,6 +127,8 @@ class WebSocketProtocol(WebSocketServerProtocol):
     ) -> None:
         self.connections.add(self)
         self.transport = transport
+        sock = transport.get_extra_info('socket')
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.server = get_local_addr(transport)
         self.client = get_remote_addr(transport)
         self.scheme = "wss" if is_ssl(transport) else "ws"
