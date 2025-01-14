@@ -101,6 +101,11 @@ class WebSocketProtocol(WebSocketServerProtocol):
         if self.config.ws_per_message_deflate:
             extensions.append(ServerPerMessageDeflateFactory())
 
+        print("self.config.ws_ping_interval")
+        print(self.config.ws_ping_interval)
+
+        print("ws_ping_timeout")
+        print(self.config.ws_ping_timeout)
         super().__init__(
             ws_handler=self.ws_handler,
             ws_server=self.ws_server,  # type: ignore[arg-type]
